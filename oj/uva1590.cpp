@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
-#define MAX_INT std::numeric_limits<int>::max()
-#define MAX_INT64 std::numeric_limits<int>::max()
-#define ESP 1e-6
+#define ip_merge(i1,i2,i3,i4) (i1 << 24 | i2 << 16 | i3 << 8 | i4)
+#define ip_part(ip, part) ((ip >> (8 * part)) & 0xff)
 
 using namespace std;
 
@@ -10,50 +9,26 @@ int main(int argc, const char* args[]){
     
     int m;
     while(cin >> m){
-        int r1,r2,r3,r4,n1,n2,n3,n4,p1,p2,p3,p4;
-        // r1,r2,r3,r4 stands for the bits that is equal to 1 from first IP to last IP.
-        // n1,n2,n3,n4 stands for the bits that is equal to 0 from first IP to last IP.
-        // r1,r2,r3,r4 是 從第1個到最後個IP 都為 1 bit
-        // n1,n2,n3,n4 是 從第1個到最後個IP 都為 0 bit
-        r1=r2=r3=r4=n1=n2=n3=n4= 255;
+
+        int rip = 0xffffffff, nip = 0xffffffff, p1,p2,p3,p4;
+
         for(int i = 0;i < m;i++){
             cin >> p1; cin.ignore(1); cin >> p2; cin.ignore(1); cin >> p3; cin.ignore(1); cin >> p4;
-            r1 &= p1;
-            r2 &= p2;
-            r3 &= p3;
-            r4 &= p4;
-            n1 &= ~p1;
-            n2 &= ~p2;
-            n3 &= ~p3;
-            n4 &= ~p4;
+            rip &=  ip_merge(p1,p2,p3,p4);   // rip = the bit 1 that is always equal from first ip to last ip
+            nip &= ~ip_merge(p1,p2,p3,p4);   // nip = the bit 0 that is always equal from first ip to last ip
         }
 
-        // m1,m2,m3,m4 stands for the bits that is equal from first IP to last IP.
-        // m1,m2,m3,m4 是 從第1個到最後個IP 都相同的 bit
-        int m1,m2,m3,m4;
-        m1 = r1 | n1;
-        m2 = r2 | n2;
-        m3 = r3 | n3;
-        m4 = r4 | n4;
-        // 找到最大的 0, 把他後面從成全部是0
-        int merge = m1 << 24 | m2 << 16 | m3 << 8 | m4;
+        int mask = rip | nip;                // for this moment, mask is the bit 1 or 0 that is always equal from first ip to last ip
         for(int i = 31; i>=0;i--)
-            if((merge & (1 << i)) >> i ==  0){
-                merge = merge >> i;
-                merge = merge << i;
-            }
+            if((mask & (1 << i)) >> i ==  0){   // find the biggest zero in the mask, make every bit behind it to zero. Now it is a really mask
+                mask = mask >> i;
+                mask = mask << i;
+                break;
+            }   
 
-        m1 = (merge >> 24) & 255;
-        m2 = (merge >> 16) & 255;
-        m3 = (merge >> 8) & 255;
-        m4 = (merge) & 255;
-        int a1,a2,a3,a4;
-        a1 = p1 & m1;
-        a2 = p2 & m2;
-        a3 = p3 & m3;
-        a4 = p4 & m4;
+        int domain = ip_merge(p1,p2,p3,p4) & mask;
 
-        cout << a1 << "." << a2 << "." << a3 << "." << a4 << endl;
-        cout << m1 << "." << m2 << "." << m3 << "." << m4 << endl;
+        cout << ip_part(domain,3) << "." << ip_part(domain,2) << "." << ip_part(domain,1) << "." << ip_part(domain,0) << endl;
+        cout << ip_part(mask,3) << "." << ip_part(mask,2) << "." << ip_part(mask,1) << "." << ip_part(mask,0) << endl;
     }
 }
