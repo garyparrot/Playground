@@ -2,9 +2,7 @@
 
 using namespace std;
 
-bool lower_than_sqrt179(double a){
-    return a*a <= 66431;
-}
+bool lower_than_sqrt179(double a){ return a*a <= 179; }
 
 int main(int argc, char *argv[])
 {

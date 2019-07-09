@@ -9,23 +9,12 @@ int main(int argc, char *argv[])
     int n = sizeof(arr) / sizeof(int);
     int target = 704;
 
-    cout << arr_string(arr,arr + n , "Array  :") << endl; 
-
     int k = 0;
-    for(int b = n / 2; b >= 1; b /= 2){
-        while(k + b < n && arr[k + b] <= target) {
+    for(int b = n / 2; b >= 1; b /= 2)
+        while(k + b < n && arr[k + b] <= target) 
             k += b;
-            cout << accumulate(arr, arr+n , string("Process:"), [&](string s, const int& item){
-                if(k == &item - &arr[0])
-                    return s + "(" + to_string(item) + ") ";
-                return s + to_string(item) + " ";
-            }) << endl;
-        }
-    }
     if(arr[k] == target)
         cout << "Found " << target << " at " << k << "."<< endl;
-    else
-        cout << "Not found." << endl;
 
     return 0;
 }

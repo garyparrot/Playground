@@ -1,13 +1,20 @@
 /*
+ * Stay away from my code, y'all :p
  *
- * 特別注意： Standard Bellman-ford can detect negative cycle, but it can not apply to undirected graph
+ * QAQ
  *
- * NOTE THAT YOU HAVE TO FINISH ONE NODE THEN DO ANOTHER
- * YOU CAN'T MIX THE ORDER, i.e. do 1->2 then do 3->4
- * but you can 1->2 1->3 1->4 ... after all the edge start from 1 finished, you iterate next node
- * Otherwise your bellman-ford will failed
+ * Before you upload your sh*tty code. Pleause MAKE SURE.
+ * 1. You have passed all the public test cases.
+ * 2. Make sure each part of your code working fine.
+ * 3. Remove any logging message.
+ * 4. Your variable won't overflow.
+ * 5. Perform your alogrithm on your paper.
+ * 6. Pray to the God of AC.
+ * 7. Sacrifice your soul for the king of Competeive Programming.
+ * 8. Sign up the contract for selling your body to the daemon of Codeforces.
+ *
+ * Then you upload your code
  */
-
 #include <bits/stdc++.h>
 #define MAX_INT std::numeric_limits<int>::max()
 #define MAX_INT64 std::numeric_limits<int>::max()
@@ -26,38 +33,18 @@ typedef long long ll;
 
 int Case = 1;
 
+int modpow(int x,int n,int m){
+    if( n == 0 ) return 1 % m;  // watch out 1
+    int u = modpow(x, n / 2, m);
+    u = (u * u) % m;
+    if( n % 2 == 1 ) u = ( u * x ) % m;
+
+    return u;
+}
+
 int main(int argc, const char* args[]){
     ONLINE_JUDEGE_SETTING();
-    int n,e; cin >> n >> e;    
-
-    typedef pair<pair<int,int>,int> edge;
-#define src first.first
-#define dst first.second
-#define weight second
-    vector<edge> vec(2*e);
-
-    for(int i = 0,j,k,l; i < e;i++)
-        cin >> vec[i].src >> vec[i].dst >> vec[i].weight;
-
-    const int INF = 666666;
-    vector<int> dist(n,INF);
-    vector<int> from(n,INF);
-    dist[0] = 0;
-
-    bool neg_cycle = false;
-    for(int i = 0;i <= n; i++){
-        bool update = false;
-        for(int j = 0;j < e;j++){
-            edge& e = vec[j];
-            if(dist[e.dst] > dist[e.src] + e.weight)
-                { update = true; dist[e.dst] = dist[e.src] + e.weight; from[e.dst] = e.src;}
-        }
-        if(update == false) break;
-        if(update && i == n) { neg_cycle = true; break; }
-    }
-
-    if(neg_cycle) cout << "NEG" << endl;
-    for(auto i : dist){ cout << i << endl; }
+    cout << modpow(5, 40000, 100) << endl; 
 }
 
 // {{{ Debugging & Online Judge
