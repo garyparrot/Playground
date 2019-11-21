@@ -31,50 +31,19 @@ int dprintf(const char *fmt, ...);
 typedef long long ll;
 // }}}
 
-int reverseBit(int value){
-    value = (value & 0xffff0000) >> 16 | (value & 0x0000ffff) << 16;
-    value = (value & 0xff00ff00) >>  8 | (value & 0x00ff00ff) <<  8;
-    value = (value & 0xf0f0f0f0) >>  4 | (value & 0x0f0f0f0f) <<  4;
-    value = (value & 0xcccccccc) >>  2 | (value & 0x33333333) <<  2;
-    value = (value & 0xaaaaaaaa) >>  1 | (value & 0x55555555) <<  1;
-    return value;
-}
-
+int Case = 1;
 int main(int argc, const char* args[]){
     ONLINE_JUDEGE_SETTING();
-#define set_bit(x,i)                 ( x |  (1 << i) )
-#define reset_bit(x,i)               ( x & ~(1 << i) )
-#define invert_bit(x,i)              ( x ^  (1 << i) )
-#define reset_First1(x,i)            ( x &  (x - 1)  )
-#define first_1(x,i)                 ( x &  -x       ) 
-
-    // dirty trick for print 32 binary value
-#define pb8 "%d%d%d%d%d%d%d%d"
-#define pb16 pb8 pb8
-#define pb32 pb16 pb16
-#define get1(x) ((x) & 1)
-#define get2(x) get1(x >> 1), get1(x)
-#define get4(x) get2(x >> 2), get2(x)
-#define get8(x) get4(x >> 4), get4(x)
-#define get16(x) get8(x >> 8), get8(x)
-#define get32(x) get16(x >> 16), get16(x)
-    
-    printf("The binary of %d is " pb32 "\n", 666, get32(0xaaaaaaaa));
-    printf("Rev binary of %d is " pb32 "\n", 666, get32(reverseBit(0xaaaaaaaa)));
-
-#define set_intersectoin(a,b)        ((a)&(b))
-#define set_union(a,b)               ((a)|(b))
-#define set_complement(a)            (~(a))
-#define difference(a,b)              ((a) & ~(b))
-
-    // 遞代每個x的子集合(把 (b-x) 看成 (b + ~x + 1) 比較好懂)
-    int x = 1 << 3 | 1 << 5 | 1 << 8;
-    int b = 0;
-    printf("set x =" pb32 "\n", get32(x));
-    do{
-        // process subset b
-        printf("subset " pb32 "\n", get32(b));
-    } while(b = (b-x) & x);
+    int n; cin >> n;
+    int a,b,c;
+    a=b=c=0;
+    for(int i = 0;i< n;i++){
+        int x,y,z; cin >> x >> y >> z;
+        a += x;
+        b += y;
+        c += z;
+    }
+    cout << ((a==0&&b==0&&c==0) ? "YES" : "NO") << endl;
 }
 
 // {{{ Debugging & Online Judge
